@@ -1,5 +1,5 @@
 import java.util.*;
-import java.io.File;
+// import java.io.File;
 //import java.util.Scanner; //used to read input
 //import java.util.ArrayList;
 //import java.util.Collections;
@@ -22,7 +22,7 @@ public class main {
         return true;
     }//end of isAlpha
 
-    static boolean isNumExist(String number, HashMap<Integer,Object> myObj){
+    static boolean isNumExist(String number, HashMap<Integer,Student> myObj){
         int numInt = Integer.parseInt(number);
 
         for(int i : myObj.keySet()){
@@ -30,8 +30,6 @@ public class main {
                 return false;
         }
         return true;
-
-
     }
 
     static boolean isNumber(String num) {
@@ -44,25 +42,13 @@ public class main {
             return false;
         }
     }//end of isNumber
-    /*
-    public static void addStudent(String studentID,String firstName, String lastName){
-        //create student object;
-        Student student = new Student(Integer.parseInt(studentID), firstName, lastName);
 
-        //create an instance of Hashmap
-        HashMap<Integer, Object> myStudent= new HashMap<Integer,Object>();
-
-        myStudent.put(Integer.parseInt(studentID), student);
-        student.printStudent();
-
-
-    }*/
 
     public static void main(String[] args) {
         boolean userCond = true; //until q is selected
         Scanner inputIn = new Scanner(System.in);
         //File myObj = new File("Student.txt");
-        HashMap<Integer, Object> myStudent = new HashMap<>();
+        HashMap<Integer, Student> myStudent = new HashMap<>();
 
         while(userCond) {
             System.out.println("\nPlease enter \"a\" to ADD a student");
@@ -87,7 +73,6 @@ public class main {
 
                         //check to see if valid input is entered, error message is added within methods
                         while(isNameValid) {
-
                             System.out.println("Enter First Name");
                             firstName = inputIn.nextLine();
 
@@ -116,23 +101,19 @@ public class main {
                                  System.out.println("Invalid number, try again.");
                         }//end of isNumValid
 
-                        //create student object;
                         Student student = new Student(Integer.parseInt(studentID), firstName, lastName);
-
                         myStudent.put(Integer.parseInt(studentID), student);
 
-                            System.out.println("Student added");
-                            student.printStudent();
+                        System.out.println("Student added");
                     }//end of while(isValid)
-                    break;
                 }
                 case "d" -> System.out.println("Inside input d");
                 case "p" -> {
-                    System.out.println("Inside input p");
 
-                    for(int i : myStudent.keySet())
-                        System.out.println("Student ID :" +  i + "  Name: " +myStudent.get(i));
-                    break;
+                    System.out.println("Inside input p");
+                    for (int i: myStudent.keySet()) {
+                        myStudent.get(i).printStudent();
+                    }
                 }
                 case "g" -> System.out.println("Inside input g");
                 case "q" -> {
