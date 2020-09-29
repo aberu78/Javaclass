@@ -32,7 +32,22 @@ public class main {
             return false;
         }
     }//end of isNumber
+    public static void addStudent(String studentID,String firstName, String lastName){
+        //create student object;
+        Student student = new Student(Integer.parseInt(studentID), firstName, lastName);
 
+        //create an instance of Hashmap
+        HashMap<Integer, Object> myStudent= new HashMap<Integer,Object>();
+
+        myStudent.put(Integer.parseInt(studentID), student);
+
+        //ArrayList<String> studentInfo = new ArrayList<String>();
+
+       // studentInfo.add(0, firstName);
+       // studentInfo.add(1,lastName);
+      //  myStudent.put(Integer.parseInt(studentID),studentInfo);
+        System.out.println(myStudent);
+    }
 
     public static void main(String[] args) {
         boolean userCond = true; //until q is selected
@@ -65,9 +80,10 @@ public class main {
 
                         //check to see if valid input is entered, error message is added within methods
                         if (isAlpha(firstName) && isAlpha(lastName) && isNumber(studentID)) {
-                            Student student = new Student(Integer.parseInt(studentID), firstName, lastName);
+                            addStudent(studentID, firstName, lastName);
+                            //Student student = new Student(Integer.parseInt(studentID), firstName, lastName);
                             //System.out.println(student.getID() + student.getFirst() + student.getLast());
-                            student.Print_Student();
+                            //student.printStudent();
                             isValid = false;
                         }//end of input name user validation.
                     }//end of while(isValid)
