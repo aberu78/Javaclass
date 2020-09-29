@@ -1,34 +1,34 @@
 public class Student {
 
-    private String first_name;
-    private String last_name;
-    private int num_id;
+    private String firstName;
+    private String lastName;
+    private int numID;
 
 
     public Student(int id, String fname, String lname) {
-       first_name = fname;
-       last_name = lname;
-       num_id = id;
+        firstName = fname;
+        lastName = lname;
+        numID = id;
 
     }
-    public void Print_Student(){
-        System.out.println("insude Print_Student method");
-        System.out.println("ID :" + num_id + " " + "Name: " + first_name + " " + last_name);
+    public void PrintStudent(){
+        System.out.println("inside Print_Student()");
+        System.out.println("ID :" + numID + " " + "Name: " + firstName + " " + lastName);
     }
 
     public String getFirst(){
-        return first_name;
+        return firstName;
     }
     public String getLast(){
-        return last_name;
+        return lastName;
     }
     public int getID(){
-        return num_id;
+        return numID;
     }
 
-    public void setStudent(String fname, String lname, int num_id){
-        this.first_name = fname;
-        this.last_name = lname;
-        this.num_id = num_id;
+    public void setStudent(String fname, String lname, int numID){
+        this.firstName = fname;
+        this.lastName = lname;
+        this.numID = numID;
     }
 }
