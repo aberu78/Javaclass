@@ -87,6 +87,7 @@ public class main {
                             } else
                                 System.out.println("Invalid name,  try again.\n");
                         }//end of isNameValid
+
                         while(isNumValid){
                             System.out.println("Enter student id");
                             studentID = inputIn.nextLine();
@@ -109,7 +110,16 @@ public class main {
                         System.out.println("Student added");
                     }//end of while(isValid)
                 }
-                case "d" -> System.out.println("Inside input d");
+                case "d" -> {
+                    System.out.println("Please enter student ID");
+                    String id = inputIn.nextLine();
+
+                    if(isNumber(id) && isNumExist(id, myStudent))
+                        myStudent.remove(Integer.parseInt(id));
+                    else
+                        System.out.println("Invalid student id, try again");
+
+                }
                 case "p" -> {
                     System.out.println("Please enter 1 to print all student Names");
                     System.out.println("Please enter 2 to all grades by a student ID");
@@ -153,7 +163,7 @@ public class main {
                             System.out.println("Enter a grade : ");
                             String grade = inputIn.nextLine();
                             if(isNumber(grade) && isGradeValid(grade)) {
-                                myStudent.get(Integer.parseInt(id)).addGrade(subject, Integer.parseInt(grade));
+                                myStudent.get(Integer.parseInt(id)).addGrade(subject.toUpperCase(), Integer.parseInt(grade));
                                 isValid = false;
                                 System.out.println("a grade is added ");
                             }
