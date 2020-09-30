@@ -9,18 +9,14 @@ public class main {
 
     static boolean isAlpha(String name) {
         //System.out.println("Inside isAlpha");
-        if (name == null) {
-            //System.out.println("Invalid name,  try again.");
+        if (name.length() == 0)
             return false;
-        }
         for (int i = 0; i < name.length(); i++) {
             char alpha = name.charAt(i);
-            if (!(alpha >= 'A' && alpha <= 'Z') && !(alpha >= 'a' && alpha <= 'z')) {
-                //System.out.println("Invalid name,  try again.");
+            if (!(alpha >= 'A' && alpha <= 'Z') && !(alpha >= 'a' && alpha <= 'z'))
                 return false;
-            }
         }
-        return true;
+       return true;
     }//end of isAlpha
 
     static boolean isNumExist(String number, HashMap<Integer,Student> myObj){
@@ -35,7 +31,7 @@ public class main {
     static boolean isNumber(String num) {
         //System.out.println("Inside isNumber");
         try {
-            Integer numID = Integer.parseInt(num);
+            int numID = Integer.parseInt(num);
             return true;
         } catch (Exception e) {
             //System.out.println("Invalid number, try again.");
@@ -77,31 +73,28 @@ public class main {
                         while(isNameValid) {
                             System.out.println("Enter First Name");
                             firstName = inputIn.nextLine();
-
                             System.out.println("Enter Last Name");
                             lastName = inputIn.nextLine();
 
-                            if (isAlpha(firstName) && isAlpha(lastName)) {
+                            if (isAlpha(firstName) && isAlpha(lastName))
                                 isNameValid = false;
 
-                            } else
+                            else
                                 System.out.println("Invalid name,  try again.\n");
+
+
                         }//end of isNameValid
 
                         while(isNumValid){
                             System.out.println("Enter student id");
                             studentID = inputIn.nextLine();
 
-                             if(isNumber(studentID)){
-                                if (!isNumExist(studentID, myStudent)) {
+                             if(isNumber(studentID) && !isNumExist(studentID, myStudent)){
                                     isNumValid = false;
                                     isValid = false;
                                 }
                                 else
-                                    System.out.println("ID you entered exist, try again.\n");
-                            }//end of if
-                            else
-                                 System.out.println("Invalid number, try again.\n");
+                                    System.out.println("Invalid number, try again.\n");
                         }//end of isNumValid
 
                         Student student = new Student(Integer.parseInt(studentID), firstName, lastName);
