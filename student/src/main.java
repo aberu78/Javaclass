@@ -43,6 +43,9 @@ public class main {
         }
     }//end of isNumber
 
+    static boolean isGradeValid(String aGrade){
+        return Integer.parseInt(aGrade) <= 100;
+    }
     public static void main(String[] args) {
         boolean userCond = true; //until q is selected
         Scanner inputIn = new Scanner(System.in);
@@ -127,8 +130,14 @@ public class main {
                             else
                                 System.out.println("Student ID you entered does not have grades recorded.");
                         }
-                        case "3" ->
-                            System.out.println("Inside option 3");
+                        case "3" -> {
+                            System.out.println("Please enter student ID");
+                            String id = inputIn.nextLine();
+                            if (isNumExist(id, myStudent))
+                                myStudent.get(Integer.parseInt(id)).printAvg();
+                            else
+                                System.out.println("Student ID you entered does not have grades recorded.");
+                        }
                         default -> System.out.println("Invalid option entered, try again");
                     }//end of switch
                 }
@@ -143,13 +152,13 @@ public class main {
                             String subject = inputIn.nextLine();
                             System.out.println("Enter a grade : ");
                             String grade = inputIn.nextLine();
-                            if(isNumber(grade)) {
+                            if(isNumber(grade) && isGradeValid(grade)) {
                                 myStudent.get(Integer.parseInt(id)).addGrade(subject, Integer.parseInt(grade));
                                 isValid = false;
                                 System.out.println("a grade is added ");
                             }
                             else
-                                System.out.println("Invalid grade, try again");
+                                System.out.println("Invalid grade entered, try again");
                         }
                         else
                             System.out.println("Student ID you entered does not have grades recorded, try again.");
