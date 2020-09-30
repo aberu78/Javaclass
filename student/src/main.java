@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.*;
 // import java.io.File;
 //import java.util.Scanner; //used to read input
@@ -24,12 +25,11 @@ public class main {
 
     static boolean isNumExist(String number, HashMap<Integer,Student> myObj){
         int numInt = Integer.parseInt(number);
-
         for(int i : myObj.keySet()){
             if(numInt == i)
-                return false;
+                return true;
         }
-        return true;
+        return false;
     }
 
     static boolean isNumber(String num) {
@@ -42,7 +42,6 @@ public class main {
             return false;
         }
     }//end of isNumber
-
 
     public static void main(String[] args) {
         boolean userCond = true; //until q is selected
@@ -83,22 +82,22 @@ public class main {
                                 isNameValid = false;
 
                             } else
-                                System.out.println("Invalid name,  try again.");
+                                System.out.println("Invalid name,  try again.\n");
                         }//end of isNameValid
                         while(isNumValid){
                             System.out.println("Enter student id");
                             studentID = inputIn.nextLine();
 
                              if(isNumber(studentID)){
-                                if (isNumExist(studentID, myStudent)) {
+                                if (!isNumExist(studentID, myStudent)) {
                                     isNumValid = false;
                                     isValid = false;
                                 }
                                 else
-                                    System.out.println("ID you entered exist, try again.");
+                                    System.out.println("ID you entered exist, try again.\n");
                             }//end of if
                             else
-                                 System.out.println("Invalid number, try again.");
+                                 System.out.println("Invalid number, try again.\n");
                         }//end of isNumValid
 
                         Student student = new Student(Integer.parseInt(studentID), firstName, lastName);
@@ -109,13 +108,53 @@ public class main {
                 }
                 case "d" -> System.out.println("Inside input d");
                 case "p" -> {
-
-                    System.out.println("Inside input p");
-                    for (int i: myStudent.keySet()) {
-                        myStudent.get(i).printStudent();
-                    }
+                    System.out.println("Please enter 1 to print all student Names");
+                    System.out.println("Please enter 2 to all grades by a student ID");
+                    System.out.println("Please enter 3 to print the average grade by a student ID");
+                    String num = inputIn.nextLine();
+                    switch(num) {
+                        case "1" -> {
+                            System.out.println("Inside option 1");
+                            for (int i : myStudent.keySet()) {
+                                myStudent.get(i).printStudent();
+                            }//end of for
+                        }//end of case 1
+                        case "2" -> {
+                            System.out.println("Please enter student ID");
+                            String id = inputIn.nextLine();
+                            if(isNumExist(id, myStudent))
+                                myStudent.get(Integer.parseInt(id)).printGrade();
+                            else
+                                System.out.println("Student ID you entered does not have grades recorded.");
+                        }
+                        case "3" ->
+                            System.out.println("Inside option 3");
+                        default -> System.out.println("Invalid option entered, try again");
+                    }//end of switch
                 }
-                case "g" -> System.out.println("Inside input g");
+                case "g" -> { //adding student grades
+                    boolean isValid = true;
+                    while(isValid) {
+                        System.out.println("Please enter student ID");
+                        String id = inputIn.nextLine();
+
+                        if(isNumber(id) && isNumExist(id, myStudent)){
+                            System.out.println("Enter a Subject : ");
+                            String subject = inputIn.nextLine();
+                            System.out.println("Enter a grade : ");
+                            String grade = inputIn.nextLine();
+                            if(isNumber(grade)) {
+                                myStudent.get(Integer.parseInt(id)).addGrade(subject, Integer.parseInt(grade));
+                                isValid = false;
+                                System.out.println("a grade is added ");
+                            }
+                            else
+                                System.out.println("Invalid grade, try again");
+                        }
+                        else
+                            System.out.println("Student ID you entered does not have grades recorded, try again.");
+                    }//end of while isValid
+                }
                 case "q" -> {
                     System.out.println("Inside input q");
                     userCond = false;
