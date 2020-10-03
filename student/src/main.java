@@ -1,11 +1,12 @@
-import javax.swing.*;
-import java.util.*;
-// import java.io.File;
-//import java.util.Scanner; //used to read input
-//import java.util.ArrayList;
-//import java.util.Collections;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-public class main {
+public class Main {
 
     static boolean isAlpha(String name) {
         //System.out.println("Inside isAlpha");
@@ -28,26 +29,102 @@ public class main {
         return false;
     }
 
+    @SuppressWarnings("catch")
     static boolean isNumber(String num) {
-        //System.out.println("Inside isNumber");
+        boolean result = false;
+
         try {
-            int numID = Integer.parseInt(num);
-            return true;
+            Integer.parseInt(num);
+            result = true;
         } catch (Exception e) {
-            //System.out.println("Invalid number, try again.");
-            return false;
+
         }
+        return result;
     }//end of isNumber
 
     static boolean isGradeValid(String aGrade){
         return Integer.parseInt(aGrade) <= 100;
     }
+
+    public static void load(HashMap<Integer, Student> myStudent) {
+        JSONParser jsonParser = new JSONParser();
+
+        try (FileReader reader = new FileReader("student_list.json")){
+            Object obj = jsonParser.parse(reader);
+            JSONArray studentLists = (JSONArray) obj;
+            System.out.println("Inside the load ");
+            System.out.println(studentLists);
+
+            for(Object studentData : studentLists)
+                parseStudentObject((JSONObject) studentData, myStudent);
+            System.out.println("load success");
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void parseStudentObject(JSONObject studentData,HashMap<Integer, Student> myStudent) {
+
+        JSONObject studentDetails = (JSONObject) studentData.get("studentData");
+        String firstName = (String) studentDetails.get("firstname");
+        String lastName = (String) studentDetails.get("lastname");
+        int id = (int)(long) studentDetails.get("id");
+        Student student = new Student(id, firstName, lastName);
+
+        HashMap<String, ArrayList<Long>> studentGrades = (HashMap<String, ArrayList<Long>>) studentDetails.get("subject");
+
+        if (!studentGrades.isEmpty()) {
+            for (String subject : studentGrades.keySet()) {
+                ArrayList<Integer> tmp = new ArrayList<>();
+                ArrayList<Long> gradesList = studentGrades.get(subject);
+                gradesList.forEach(grade -> tmp.add((int)(long)grade));
+                student.addGrades(subject, tmp);
+            }
+        }
+        myStudent.put(id, student);
+    }
+
+    public static void save(HashMap<Integer,Student> myStudent){
+
+        JSONArray  studentList = new JSONArray(); //array  that will store studentDetails obj
+        for(int id : myStudent.keySet()) {
+            JSONObject studentGrades = new JSONObject();
+            JSONObject studentDetails = new JSONObject();
+            JSONObject studentData = new JSONObject();
+
+            if(myStudent.get(id).gradeExist()) {
+                HashMap<String, ArrayList<Integer>> result = new HashMap<>();//<subject,grades[]>
+
+                for (String sub : myStudent.get(id).getSubjects()) {
+                    result.put(sub, myStudent.get(id).getGrade(sub));
+                }
+                studentGrades.putAll(result);
+            }
+            String fName = myStudent.get(id).getFirst();
+            String lName = myStudent.get(id).getLast();
+            int idNum = myStudent.get(id).getID();
+            studentDetails.put("id", idNum);
+            studentDetails.put("firstname", fName);
+            studentDetails.put("lastname", lName);
+            studentDetails.put("subject", studentGrades);
+            studentData.put("studentData", studentDetails);
+
+            studentList.add(studentData);
+        }
+
+        try(FileWriter file = new FileWriter("Student_list.json")) {
+            studentList.writeJSONString(file);
+            System.out.println("save success");
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }//end of save()
+
     public static void main(String[] args) {
         boolean userCond = true; //until q is selected
         Scanner inputIn = new Scanner(System.in);
-        //File myObj = new File("Student.txt");
         HashMap<Integer, Student> myStudent = new HashMap<>();
-
+        load(myStudent);
         while(userCond) {
             System.out.println("\nPlease enter \"a\" to ADD a student");
             System.out.println("Please enter \"d\" to remove a student");
@@ -60,7 +137,7 @@ public class main {
 
             switch (userInput) {
                 case "a" -> {
-                    System.out.println("Inside input a");
+                    //System.out.println("Inside input a");
                     boolean isValid = true;
                     while (isValid) {
                         boolean isNameValid = true;
@@ -163,12 +240,15 @@ public class main {
                             else
                                 System.out.println("Invalid grade entered, try again");
                         }
-                        else
+                        else {
                             System.out.println("Student ID you entered does not have grades recorded, try again.");
+                            isValid = false;
+                        }
                     }//end of while isValid
                 }
                 case "q" -> {
-                    System.out.println("Inside input q");
+                    //System.out.println("Inside input q");
+                    save(myStudent);
                     userCond = false;
                 }
                 default -> System.out.println("Invalid option entered, try again");

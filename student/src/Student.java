@@ -5,7 +5,7 @@ public class Student {
     private String firstName;
     private String lastName;
     private int numID;
-    private HashMap<String, ArrayList<Integer>> grades = new HashMap<>();
+    private final HashMap<String, ArrayList<Integer>> grades = new HashMap<>();
 
     public Student(int id, String fname, String lname) {
         firstName = fname;
@@ -13,18 +13,17 @@ public class Student {
         numID = id;
     }//end of Student
 
-
     public void printStudent(){
-        System.out.println("ID :" + numID + " " + "Name: " + firstName + " " + lastName);
+        System.out.println("ID :" + numID + " " + "Name: " + lastName + " , " + firstName);
     }
 
     public void printGrade(){
-        System.out.println("inside printGrade()");
+        //System.out.println("inside printGrade()");
         if(gradeExist()) {
             for (String subject : grades.keySet()) {
                 System.out.println("Subject:  " + subject );
                 for (int i : grades.get(subject))
-                    System.out.println("Grades : " + String.valueOf(i));
+                    System.out.println("Grades : " + i);
             }
         }//end of if
         else
@@ -32,15 +31,18 @@ public class Student {
     }//end of printGrade()
 
 
+
     public void addGrade(String subject , int point){
-        System.out.println("inside add_grade()");
         if(!grades.containsKey(subject))
             grades.put(subject, new ArrayList<>());
 
         grades.get(subject).add(point);
     }
 
-    private boolean gradeExist() {
+    public void addGrades(String subject , ArrayList<Integer> gradeList){
+            grades.put(subject, gradeList);
+    }
+    public boolean gradeExist() {
         return !grades.isEmpty();
     }
 
@@ -57,7 +59,7 @@ public class Student {
             for (String subject : grades.keySet()) {
                 System.out.println("Subject:  " + subject);
                 int avg = getAvg(subject);
-                System.out.println(subject + " average is :" + String.valueOf(avg));
+                System.out.println("Average is :" + avg);
             }
         }
         else
@@ -74,6 +76,13 @@ public class Student {
         return numID;
     }
 
+    public Set<String> getSubjects(){
+        return this.grades.keySet();
+    }
+    public ArrayList<Integer> getGrade(String subject ){
+        return new ArrayList<>(grades.get(subject));
+    }
+    @SuppressWarnings("unused")
     public void setStudent(String fname, String lname, int numID){
         this.firstName = fname;
         this.lastName = lname;
