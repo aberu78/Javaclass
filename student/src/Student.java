@@ -20,14 +20,9 @@ public class Student {
         numID = id;
     }//end of Student
 
-    public Student(JSONObject studentData) throws IllegalArgumentException
-    {
-        throw new IllegalArgumentException("an error");
-    }
-
     /***
      * Creates a student from a valid json string
-     * @param json The json to parse
+     * @param studentData json to parse
      * @return A student if successful null otherwise
      */
     public static Student createFromJson(JSONObject studentData)
@@ -38,9 +33,8 @@ public class Student {
         String firstName = (String) studentDetails.get("firstname");
         String lastName = (String) studentDetails.get("lastname");
         int id = (int) (long) studentDetails.get("id");
-        if(true) //all the data in the file is formatted right)
-        result = new Student(id, firstName, lastName);
 
+        result = new Student(id, firstName, lastName);
         HashMap<String, ArrayList<Long>> studentGrades = (HashMap<String, ArrayList<Long>>) studentDetails.get("subject");
 
         if (!studentGrades.isEmpty()) {
@@ -55,7 +49,6 @@ public class Student {
         {
             result = null;
         }
-
         return result;
     }
 

@@ -2,14 +2,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-
-
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 
 public class Main {
 
@@ -32,39 +28,15 @@ public class Main {
             System.out.println(studentLists);
 
             for (Object studentData : studentLists) {
-
                 Student tmp = Student.createFromJson((JSONObject)studentData);
                 if(tmp != null) {
                     myStudent.put(tmp.getID(), tmp);
-                    //parseStudentObject((JSONObject) studentData, myStudent);
                 }
             }
-
             System.out.println("load success");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static void parseStudentObject(JSONObject studentData, HashMap<Integer, Student> myStudent) {
-
-        JSONObject studentDetails = (JSONObject) studentData.get("studentData");
-        String firstName = (String) studentDetails.get("firstname");
-        String lastName = (String) studentDetails.get("lastname");
-        int id = (int) (long) studentDetails.get("id");
-        Student student = new Student(id, firstName, lastName);
-
-        HashMap<String, ArrayList<Long>> studentGrades = (HashMap<String, ArrayList<Long>>) studentDetails.get("subject");
-
-        if (!studentGrades.isEmpty()) {
-            for (String subject : studentGrades.keySet()) {
-                ArrayList<Integer> tmp = new ArrayList<>();
-                ArrayList<Long> gradesList = studentGrades.get(subject);
-                gradesList.forEach(grade -> tmp.add((int) (long) grade));
-                student.addGrades(subject, tmp);
-            }
-        }
-        myStudent.put(id, student);
     }
 
     public static void save(HashMap<Integer, Student> myStudent) {
