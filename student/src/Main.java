@@ -47,7 +47,7 @@ public class Main {
             JSONObject studentData = new JSONObject();
 
             if (myStudent.get(id).gradeExist()) {
-                HashMap<String, ArrayList<Integer>> result = new HashMap<>();//<subject,grades[]>
+                HashMap<String, ArrayList<Long>> result = new HashMap<>();//<subject,grades[]>
 
                 for (String sub : myStudent.get(id).getSubjects()) {
                     result.put(sub, myStudent.get(id).getGrade(sub));
@@ -186,7 +186,7 @@ public class Main {
                             System.out.println("Enter a grade : ");
                             String grade = inputIn.nextLine();
                             if (StringUtils.isNumeric(grade) && isGradeValid(grade)) {
-                                myStudent.get(Integer.parseInt(id)).addGrade(subject.toUpperCase(), Integer.parseInt(grade));
+                                myStudent.get(Integer.parseInt(id)). addGrade(subject.toUpperCase(), Integer.parseInt(grade));
                                 isValid = false;
                                 System.out.println("a grade is added ");
                             } else
