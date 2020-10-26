@@ -11,12 +11,13 @@ public class Student extends Person {
         super(numID, firstName, lastName);
 
     }
+    /*
 
     public Student(int numID, String firstName, String lastName, HashMap<String, Subject> grades) {
         super(numID, firstName, lastName);
         this.grades = grades;
     }
-
+*/
 
     /***
      * Creates a student from a valid json string

@@ -113,7 +113,6 @@ public class Main {
                             else
                                 System.out.println("Invalid name,  try again.\n");
 
-
                         }//end of isNameValid
 
                         while (isNumValid) {

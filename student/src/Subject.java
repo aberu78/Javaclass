@@ -28,7 +28,6 @@ public class Subject {
         this.gradesList.add(point);
     }
 
-
     public void printGrades() {
         //System.out.println("inside printGrade()");
         System.out.println("Subject:  " + this.subject);
